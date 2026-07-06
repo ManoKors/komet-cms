@@ -1,0 +1,15 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.1.0] - 2026-07-06
+
+### Added
+
+- Initiales SvelteKit Setup (Svelte 5, TypeScript).
+- Integration der Ghost Admin Design Tokens in Tailwind CSS.
+- Erstellung des globalen Layout-Skeletons (`+layout.svelte`) mit Sidebar und Main Canvas.
+- Erstellung der `<TextInput>` Komponente.
