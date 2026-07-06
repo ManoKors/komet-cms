@@ -9,7 +9,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initiales SvelteKit Setup (Svelte 5, TypeScript).
-- Integration der Ghost Admin Design Tokens in Tailwind CSS.
-- Erstellung des globalen Layout-Skeletons (`+layout.svelte`) mit Sidebar und Main Canvas.
-- Erstellung der `<TextInput>` Komponente.
+- Initiales SvelteKit Setup, Integration der Ghost Admin Design Tokens, Erstellung des globalen Layout-Skeletons und der <TextInput> Komponente.
