@@ -1,8 +1,10 @@
 <script lang="ts">
 	import TextInput from '$lib/components/TextInput.svelte';
 
-	let title = $state('');
-	let subtitle = $state('');
+	let { data } = $props();
+
+	let title = $state(data.title);
+	let subtitle = $state(data.subtitle);
 	let buttonText = $state('Speichern');
 	let isSaving = $state(false);
 

@@ -8,11 +8,12 @@ import io.ktor.server.routing.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.jetbrains.exposed.sql.insert
+import kotlinx.serialization.json.JsonElement
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 @Serializable
-data class ContentResponse(val status: String, val tenantId: String?, val data: List<String>)
+data class ContentResponse(val status: String, val tenantId: String?, val data: JsonElement?)
 
 @Serializable
 data class HeroPayload(val title: String, val subtitle: String)
@@ -25,9 +26,24 @@ fun Application.configureRouting() {
         route("/api/v1") {
             route("/content/{tenantId}") {
                 get {
-                    val tenantId = call.parameters["tenantId"]
-                    // Dummy response. Later, fetch ContentBlocks for tenantId from DB.
-                    call.respond(ContentResponse("success", tenantId, emptyList()))
+                    val tenantId = call.parameters["tenantId"] ?: return@get call.respond(
+                        HttpStatusCode.BadRequest,
+                        ContentResponse("error", null, null)
+                    )
+
+                    val block = transaction {
+                        ContentBlocks.selectAll().where {
+                            (ContentBlocks.tenantId eq tenantId) and (ContentBlocks.blockType eq "hero")
+                        }.singleOrNull()
+                    }
+
+                    if (block != null) {
+                        val jsonString = block[ContentBlocks.jsonPayload]
+                        val jsonElement = Json.parseToJsonElement(jsonString)
+                        call.respond(HttpStatusCode.OK, ContentResponse("success", tenantId, jsonElement))
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, ContentResponse("error", tenantId, null))
+                    }
                 }
 
                 post {
@@ -41,11 +57,21 @@ fun Application.configureRouting() {
                         val jsonString = Json.encodeToString(payload)
 
                         transaction {
-                            ContentBlocks.insert {
-                                it[ContentBlocks.tenantId] = tenantId
-                                it[pageRoute] = "/"
-                                it[blockType] = "hero"
-                                it[jsonPayload] = jsonString
+                            val existing = ContentBlocks.selectAll().where {
+                                (ContentBlocks.tenantId eq tenantId) and (ContentBlocks.blockType eq "hero")
+                            }.singleOrNull()
+
+                            if (existing != null) {
+                                ContentBlocks.update({ ContentBlocks.id eq existing[ContentBlocks.id] }) {
+                                    it[jsonPayload] = jsonString
+                                }
+                            } else {
+                                ContentBlocks.insert {
+                                    it[ContentBlocks.tenantId] = tenantId
+                                    it[pageRoute] = "/"
+                                    it[blockType] = "hero"
+                                    it[jsonPayload] = jsonString
+                                }
                             }
                         }
 
