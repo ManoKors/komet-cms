@@ -1,11 +1,15 @@
 package com.komet
 
+import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
-object Tenants : IntIdTable("tenants") {
+object Tenants : IdTable<String>("tenants") {
+    override val id = varchar("id", 255).entityId()
     val name = varchar("name", 255)
     val domain = varchar("domain", 255)
 }
@@ -22,5 +26,16 @@ fun initDatabase() {
     val database = Database.connect("jdbc:sqlite:komet_cms.db", "org.sqlite.JDBC")
     transaction(database) {
         SchemaUtils.create(Tenants, ContentBlocks)
+
+        // Insert dummy tenant if it doesn't exist
+        val dummyTenantId = "tenant-123"
+        val existingTenant = Tenants.selectAll().where { Tenants.id eq dummyTenantId }.singleOrNull()
+        if (existingTenant == null) {
+            Tenants.insert {
+                it[id] = dummyTenantId
+                it[name] = "Demo Praxis"
+                it[domain] = "demo-praxis.komet.cms"
+            }
+        }
     }
 }
