@@ -1,54 +1,45 @@
 <script lang="ts">
-	type ListItem = {
+	import TextInput from '$lib/components/TextInput.svelte';
+
+	export type ListItem = {
 		id: string;
 		title: string;
 		description: string;
 	};
 
-	let items = $state<ListItem[]>([
-		{
-			id: '1',
-			title: 'Physiotherapie',
-			description: 'Klassische Krankengymnastik zur Wiederherstellung der Beweglichkeit.'
-		},
-		{
-			id: '2',
-			title: 'Manuelle Therapie',
-			description: 'Spezielle Handgriffe zur Schmerzlinderung und Mobilisation.'
-		}
-	]);
+	let { items = $bindable() }: { items: ListItem[] } = $props();
 
 	function handleAdd() {
-		console.log('Add new item');
-	}
-
-	function handleEdit(id: string) {
-		console.log('Edit item:', id);
+		items.push({
+			id: crypto.randomUUID(),
+			title: '',
+			description: ''
+		});
 	}
 
 	function handleDelete(id: string) {
-		console.log('Delete item:', id);
 		items = items.filter((item) => item.id !== id);
 	}
 </script>
 
 <div class="flex flex-col gap-4">
-	{#each items as item (item.id)}
+	{#each items as item, i (item.id)}
 		<div
-			class="bg-white p-4 rounded-ghost shadow-ghost-1 flex justify-between items-center border border-ghost-border"
+			class="bg-white p-4 rounded-ghost shadow-ghost-1 flex justify-between items-start border border-ghost-border gap-4"
 		>
-			<div>
-				<h3 class="font-semibold text-ghost-black">{item.title}</h3>
-				<p class="text-sm text-ghost-midgrey mt-1">{item.description}</p>
+			<div class="flex-1">
+				<TextInput
+					id="item-title-{item.id}"
+					placeholder="Titel der Leistung"
+					bind:value={items[i].title}
+				/>
+				<TextInput
+					id="item-description-{item.id}"
+					placeholder="Beschreibung der Leistung"
+					bind:value={items[i].description}
+				/>
 			</div>
-			<div class="flex gap-3">
-				<button
-					type="button"
-					class="text-sm font-medium text-ghost-midgrey hover:text-ghost-black transition-colors"
-					onclick={() => handleEdit(item.id)}
-				>
-					Bearbeiten
-				</button>
+			<div class="flex gap-3 mt-2">
 				<button
 					type="button"
 					class="text-sm font-medium text-ghost-midgrey hover:text-error transition-colors"

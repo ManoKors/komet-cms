@@ -7,7 +7,7 @@
 		placeholder = ''
 	}: {
 		id: string;
-		label: string;
+		label?: string;
 		value: string;
 		error?: string;
 		placeholder?: string;
@@ -15,9 +15,11 @@
 </script>
 
 <div class="flex flex-col space-y-1 mb-4">
-	<label for={id} class="text-[1.3rem] font-semibold text-ghost-darkgrey">
-		{label}
-	</label>
+	{#if label}
+		<label for={id} class="text-[1.3rem] font-semibold text-ghost-darkgrey">
+			{label}
+		</label>
+	{/if}
 	<input
 		{id}
 		type="text"

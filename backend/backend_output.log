@@ -1,0 +1,10 @@
+> Task :checkKotlinGradlePluginConfigurationErrors
+> Task :compileKotlin UP-TO-DATE
+> Task :compileJava NO-SOURCE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+
+> Task :run
+2026-07-07 12:37:25.479 [main] INFO  ktor.application - Autoreload is disabled because the development mode is off.
+2026-07-07 12:37:26.380 [main] INFO  ktor.application - Application started in 0.945 seconds.
+2026-07-07 12:37:26.582 [DefaultDispatcher-worker-1] INFO  ktor.application - Responding at http://0.0.0.0:8080

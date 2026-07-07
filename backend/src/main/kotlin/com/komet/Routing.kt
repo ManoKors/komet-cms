@@ -19,21 +19,32 @@ data class ContentResponse(val status: String, val tenantId: String?, val data: 
 data class HeroPayload(val title: String, val subtitle: String)
 
 @Serializable
+data class RepeaterItem(val id: String, val title: String, val description: String)
+
+@Serializable
+data class ServicesPayload(val items: List<RepeaterItem>)
+
+@Serializable
 data class ContentUpdateResponse(val status: String, val tenantId: String?, val message: String)
 
 fun Application.configureRouting() {
     routing {
         route("/api/v1") {
-            route("/content/{tenantId}") {
+            route("/content/{tenantId}/{blockType}") {
                 get {
                     val tenantId = call.parameters["tenantId"] ?: return@get call.respond(
                         HttpStatusCode.BadRequest,
                         ContentResponse("error", null, null)
                     )
 
+                    val blockType = call.parameters["blockType"] ?: return@get call.respond(
+                        HttpStatusCode.BadRequest,
+                        ContentResponse("error", null, null)
+                    )
+
                     val block = transaction {
                         ContentBlocks.selectAll().where {
-                            (ContentBlocks.tenantId eq tenantId) and (ContentBlocks.blockType eq "hero")
+                            (ContentBlocks.tenantId eq tenantId) and (ContentBlocks.blockType eq blockType)
                         }.singleOrNull()
                     }
 
@@ -52,13 +63,30 @@ fun Application.configureRouting() {
                         ContentUpdateResponse("error", null, "Missing tenantId")
                     )
 
+                    val blockType = call.parameters["blockType"] ?: return@post call.respond(
+                        HttpStatusCode.BadRequest,
+                        ContentUpdateResponse("error", null, "Missing blockType")
+                    )
+
                     try {
-                        val payload = call.receive<HeroPayload>()
-                        val jsonString = Json.encodeToString(payload)
+                        val jsonString = when (blockType) {
+                            "hero" -> {
+                                val payload = call.receive<HeroPayload>()
+                                Json.encodeToString(payload)
+                            }
+                            "services" -> {
+                                val payload = call.receive<ServicesPayload>()
+                                Json.encodeToString(payload)
+                            }
+                            else -> return@post call.respond(
+                                HttpStatusCode.BadRequest,
+                                ContentUpdateResponse("error", tenantId, "Unknown blockType")
+                            )
+                        }
 
                         transaction {
                             val existing = ContentBlocks.selectAll().where {
-                                (ContentBlocks.tenantId eq tenantId) and (ContentBlocks.blockType eq "hero")
+                                (ContentBlocks.tenantId eq tenantId) and (ContentBlocks.blockType eq blockType)
                             }.singleOrNull()
 
                             if (existing != null) {
@@ -69,7 +97,7 @@ fun Application.configureRouting() {
                                 ContentBlocks.insert {
                                     it[ContentBlocks.tenantId] = tenantId
                                     it[pageRoute] = "/"
-                                    it[blockType] = "hero"
+                                    it[ContentBlocks.blockType] = blockType
                                     it[jsonPayload] = jsonString
                                 }
                             }
