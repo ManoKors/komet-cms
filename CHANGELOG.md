@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- **Premium UI/UX Redesign:** Das komplette Interface wurde von einem "Tech-Prototyp" auf ein minimalistisches "Enterprise SaaS"-Niveau (inspiriert von Vercel/Linear) gehoben.
+- **Farbpalette:** Die grüne Primärfarbe wurde durch ein elegantes monochromes Farbschema (Zinc-Töne) ausgetauscht.
+- **Typografie:** Installation und Einbindung von `@fontsource/geist-sans` als primäre, scharfe UI-Schriftart.
+- **Layout & Canvas:** Das Boxed-Layout wurde durch einen Seamless-Canvas (`bg-zinc-50`) ersetzt. Sektionen im Dashboard sind nun freischwebende Kacheln (`shadow-ghost-sm`).
+- **Core-Komponenten:** `TextInput` und `SelectInput` wurden mit modernen Focus-Ringen und sauberen Border-Farben überarbeitet.
+- **Interaktionen:** Dem Speichern-Button wurde ein SVG-Loading-Spinner (`isSaving`) hinzugefügt. Im `ListRepeater` ersetzt nun ein Grip-SVG (Drag&Drop-Andeutung) sowie ein Hover-basiertes Mülleimer-SVG die bisherigen Text-Buttons.
+
 ## [0.1.4] - 2026-07-07
 
 ### Added
