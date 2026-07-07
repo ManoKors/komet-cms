@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.4] - 2026-07-07
+
+### Added
+
+- **Phase 3 abgeschlossen:** UX-Polish und Settings-Block für die künftige Astro-Generierung implementiert.
+- Globales Toast-Notification-System in SvelteKit (`toast.svelte.ts` & `+layout.svelte`) hinzugefügt.
+- Ghost-Design `SelectInput.svelte` Komponente für Dropdowns erstellt.
+- Theme Switcher ("Globale Einstellungen") zum Dashboard hinzugefügt.
+- Backend erweitert: Neue POST-Route & `@Serializable` Klasse `SettingsPayload` für den `settings`-Block.
+
 ## [0.1.3] - 2026-07-07
 
 ### Added

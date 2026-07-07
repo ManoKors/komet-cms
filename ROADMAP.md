@@ -20,8 +20,9 @@
 
 ## Phase 3: UX Polish & State Management
 
-- [ ] Implementierung eines globalen Toast-Notification-Systems (z.B. "Erfolgreich gespeichert").
-- [ ] Lade-Indikatoren (Spinner/Disabled States) während der HTTP-Requests.
+- [x] Implementierung eines globalen Toast-Notification-Systems (z.B. "Erfolgreich gespeichert").
+- [x] Lade-Indikatoren (Spinner/Disabled States) während der HTTP-Requests.
+- [x] Theme Switcher: Globale Einstellungen mit Dropdown zur Auswahl des Astro-Themes.
 
 ## Phase 4: Mandanten-Auswahl & Routing
 

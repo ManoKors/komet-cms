@@ -1,8 +1,20 @@
 <script lang="ts">
 	import '../app.css';
+	import { toast } from '$lib/stores/toast.svelte';
 
 	let { children } = $props();
 </script>
+
+{#if toast.visible}
+	<div
+		class="fixed bottom-6 right-6 z-50 px-6 py-3 rounded-ghost shadow-ghost-2 text-white font-medium transition-all duration-300 ease-in-out {toast.type ===
+		'success'
+			? 'bg-primary'
+			: 'bg-error'}"
+	>
+		{toast.message}
+	</div>
+{/if}
 
 <div class="flex min-h-screen bg-ghost-bg font-sans text-ghost-darkgrey">
 	<!-- Sidebar -->
