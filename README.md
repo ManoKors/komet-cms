@@ -18,6 +18,8 @@ Das Dashboard kommuniziert via JSON-Payloads an eine Ktor-API (Kotlin). Diese AP
 
 ## Lokales Setup
 
+### Frontend (SvelteKit)
+
 Abhängigkeiten installieren:
 
 ```bash
@@ -29,3 +31,21 @@ Lokalen Entwicklungsserver starten:
 ```bash
 npm run dev
 ```
+
+### Backend (Ktor)
+
+Das Backend liegt im Ordner `backend/` und ist ein eigenständiges Gradle-Projekt. Es verwendet Kotlin, Ktor und SQLite.
+
+1. **In den Backend-Ordner wechseln:**
+   ```bash
+   cd backend
+   ```
+
+2. **Server starten:**
+   Nutze den generierten Gradle Wrapper, um den Ktor-Server zu starten. Du musst Gradle nicht global installiert haben.
+   ```bash
+   ./gradlew run
+   ```
+
+Der Server startet auf `http://0.0.0.0:8080`.
+Die SQLite-Datenbank (`komet_cms.db`) und das Schema werden beim ersten Start **automatisch initialisiert** (durch die Funktion `initDatabase()` über JetBrains Exposed).
