@@ -25,6 +25,9 @@ data class RepeaterItem(val id: String, val title: String, val description: Stri
 data class ServicesPayload(val items: List<RepeaterItem>)
 
 @Serializable
+data class SettingsPayload(val theme: String)
+
+@Serializable
 data class ContentUpdateResponse(val status: String, val tenantId: String?, val message: String)
 
 fun Application.configureRouting() {
@@ -76,6 +79,10 @@ fun Application.configureRouting() {
                             }
                             "services" -> {
                                 val payload = call.receive<ServicesPayload>()
+                                Json.encodeToString(payload)
+                            }
+                            "settings" -> {
+                                val payload = call.receive<SettingsPayload>()
                                 Json.encodeToString(payload)
                             }
                             else -> return@post call.respond(

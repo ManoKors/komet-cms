@@ -4,11 +4,13 @@ export const load: PageLoad = async ({ fetch }) => {
 	let title = '';
 	let subtitle = '';
 	let services = [];
+	let theme = 'minimal-light';
 
 	try {
-		const [heroRes, servicesRes] = await Promise.all([
+		const [heroRes, servicesRes, settingsRes] = await Promise.all([
 			fetch('http://localhost:8080/api/v1/content/tenant-123/hero'),
-			fetch('http://localhost:8080/api/v1/content/tenant-123/services')
+			fetch('http://localhost:8080/api/v1/content/tenant-123/services'),
+			fetch('http://localhost:8080/api/v1/content/tenant-123/settings')
 		]);
 
 		if (heroRes.ok) {
@@ -25,6 +27,13 @@ export const load: PageLoad = async ({ fetch }) => {
 				services = servicesResult.data.items;
 			}
 		}
+
+		if (settingsRes.ok) {
+			const settingsResult = await settingsRes.json();
+			if (settingsResult.status === 'success' && settingsResult.data && settingsResult.data.theme) {
+				theme = settingsResult.data.theme;
+			}
+		}
 	} catch (error) {
 		console.error('Failed to fetch content:', error);
 	}
@@ -32,6 +41,7 @@ export const load: PageLoad = async ({ fetch }) => {
 	return {
 		title,
 		subtitle,
-		services
+		services,
+		theme
 	};
 };
