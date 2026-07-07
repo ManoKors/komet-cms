@@ -23,7 +23,10 @@
 			<a href="/" class="block px-4 py-2 rounded-ghost hover:bg-ghost-whitegrey transition-colors">
 				Dashboard
 			</a>
-			<a href="/" class="block px-4 py-2 rounded-ghost hover:bg-ghost-whitegrey transition-colors">
+			<a
+				href="/inhalte"
+				class="block px-4 py-2 rounded-ghost hover:bg-ghost-whitegrey transition-colors"
+			>
 				Inhalte
 			</a>
 		</nav>

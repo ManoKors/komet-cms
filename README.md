@@ -37,6 +37,7 @@ npm run dev
 Das Backend liegt im Ordner `backend/` und ist ein eigenständiges Gradle-Projekt. Es verwendet Kotlin, Ktor und SQLite.
 
 1. **In den Backend-Ordner wechseln:**
+
    ```bash
    cd backend
    ```

@@ -1,25 +1,40 @@
 # Komet CMS - Projekt-Roadmap
 
-Diese Roadmap dient als Kompass für die zukünftigen Sprints und Entwicklungsphasen des Komet CMS.
+## Phase 1: Fundament & End-to-End (Abgeschlossen)
 
-## Phase 1: Fundament & End-to-End (Aktuell)
-* Setup von SvelteKit und Ktor.
-* Integration der Ghost-UI Design Tokens (z.B. `bg-primary`, `rounded-ghost`).
-* SQLite Datenbank-Speicherung mit JetBrains Exposed.
-* GET/POST Datenkreislauf für einen einfachen "Lego-Stein" (Hero-Block).
+- [x] SvelteKit 5 Frontend initialisieren (TypeScript, Tailwind, ESLint).
+- [x] Ktor Backend initialisieren (Kotlin, Gradle, Netty).
+- [x] Ghost-UI Design Tokens in Tailwind konfigurieren (Colors, Shadows, 62.5% Font-Size).
+- [x] Svelte-Layout-Skeleton (`.gh-canvas` Prinzip) und `<TextInput>` erstellen.
+- [x] SQLite Datenbank-Schema (`Tenants`, `ContentBlocks`) via JetBrains Exposed anlegen.
+- [x] Ktor: POST-Route mit typsicherem JSON-Payload & Upsert-Logik (Update or Insert) implementieren.
+- [x] Ktor: GET-Route mit Wrapper-Objekt (`ContentResponse`) implementieren.
+- [x] SvelteKit: End-to-End Kreislauf schließen (Daten via `load` laden und via `onsubmit` speichern).
 
-## Phase 2: Komplexe UI & Repeater (Demnächst)
-* Entwicklung der dynamischen `<ListRepeater>` Svelte-Komponente (z.B. für Therapie-Leistungen).
-* Array-Handling im JSON-Payload für wiederholbare Inhalte.
+## Phase 2: Komplexe UI & Array-Handling (Aktuell)
 
-## Phase 3: Mandanten-Auswahl & Routing
-* Dashboard-Sidebar funktional machen.
-* Dynamische Mandanten-IDs im Frontend implementieren.
-* Navigation zwischen verschiedenen Seiten ("Startseite" und "Leistungen").
+- [ ] Erstellung der `<ListRepeater.svelte>` Komponente im Ghost-Style.
+- [ ] Logik in Svelte implementieren: Hinzufügen, Bearbeiten und Löschen von Listen-Einträgen.
+- [ ] Ktor: Backend-Datenmodell für Array-Payloads (z.B. `List<TherapieLeistung>`) erweitern.
+- [ ] End-to-End Test: Dynamische Liste speichern und neu laden.
 
-## Phase 4: Der Astro-Generator
-* Entwicklung eines Skripts zur Generierung der statischen Astro-Seiten.
-* Datenbasis für die Generierung ist die zentrale SQLite-Datenbank.
+## Phase 3: UX Polish & State Management
 
-## Phase 5: Cloudflare & Webhooks
-* Ktor Backend triggert Cloudflare-Builds automatisch bei erfolgreichem "Speichern".
+- [ ] Implementierung eines globalen Toast-Notification-Systems (z.B. "Erfolgreich gespeichert").
+- [ ] Lade-Indikatoren (Spinner/Disabled States) während der HTTP-Requests.
+
+## Phase 4: Mandanten-Auswahl & Routing
+
+- [ ] Dynamische URL-Struktur im Svelte-Dashboard aufbauen (z.B. `/dashboard/[tenantId]/[page]`).
+- [ ] Funktionale Sidebar mit Navigation (Startseite, Leistungen, Team).
+
+## Phase 5: Der Astro-Beweis (SSG)
+
+- [ ] Setup eines minimalen Astro.build Projekts.
+- [ ] Skript zur Anbindung von Astro an die lokale SQLite-Datenbank.
+- [ ] Automatisches Rendern der Ktor-JSON-Daten in pures HTML.
+
+## Phase 6: Deployment & Webhooks
+
+- [ ] Ktor feuert POST-Webhook an Cloudflare nach erfolgreichem Speichern.
+- [ ] Lokales/VPS Hosting-Setup dokumentieren.
