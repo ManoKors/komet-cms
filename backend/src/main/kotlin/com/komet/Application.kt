@@ -21,11 +21,12 @@ fun Application.module() {
 
     // Configure CORS for SvelteKit frontend
     install(CORS) {
-        anyHost() // Use specific hosts in production
+        allowHost("localhost:5173", schemes = listOf("http", "https"))
         allowMethod(HttpMethod.Options)
         allowMethod(HttpMethod.Put)
         allowMethod(HttpMethod.Delete)
         allowMethod(HttpMethod.Patch)
+        allowMethod(HttpMethod.Post)
         allowHeader(HttpHeaders.Authorization)
         allowHeader(HttpHeaders.ContentType)
     }

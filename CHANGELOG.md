@@ -9,5 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Erste funktionierende End-to-End Verbindung (Svelte -> Ktor) über ein Hero-Block Formular auf dem Dashboard.
 - Initiales SvelteKit Setup, Integration der Ghost Admin Design Tokens, Erstellung des globalen Layout-Skeletons und der <TextInput> Komponente.
 - Initiales Ktor-Backend-Setup (Kotlin, JetBrains Exposed, SQLite, kotlinx-serialization) im `backend/` Verzeichnis hinzugefügt.
