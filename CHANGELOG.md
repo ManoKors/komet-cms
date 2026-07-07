@@ -15,6 +15,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Core-Komponenten:** `TextInput` und `SelectInput` wurden mit modernen Focus-Ringen und sauberen Border-Farben überarbeitet.
 - **Interaktionen:** Dem Speichern-Button wurde ein SVG-Loading-Spinner (`isSaving`) hinzugefügt. Im `ListRepeater` ersetzt nun ein Grip-SVG (Drag&Drop-Andeutung) sowie ein Hover-basiertes Mülleimer-SVG die bisherigen Text-Buttons.
 
+## [0.1.5] - 2026-07-07
+
+### Added
+- **Strategie-Wechsel:** Fokus auf "Function over Form" und den "Astro-Beweis" für die Headless-Architektur (Phase 3 "UX Polish" pausiert).
+- **Astro-Setup:** Ein neues minimales Astro-Projekt im Verzeichnis `astro-site` hinzugefügt, port auf `4321` konfiguriert und TypeScript aktiviert.
+- **Ktor-Integration:** Daten (Hero- und Services-Blöcke) werden über `fetch()` im `Promise.all` aus dem Ktor-Backend gezogen und als statisches HTML generiert. Es wurden Fallbacks für den Fall, dass das CMS nicht erreichbar ist, implementiert.
+
 ## [0.1.4] - 2026-07-07
 
 ### Added

@@ -1,0 +1,63 @@
+---
+// Component-Script: Daten von Ktor abrufen
+
+let heroData = {
+	title: "CMS nicht erreichbar",
+	subtitle: "Ktor-Backend ist offline oder antwortet nicht."
+};
+
+let servicesData = [];
+
+try {
+	const [heroResponse, servicesResponse] = await Promise.all([
+		fetch('http://localhost:8080/api/v1/content/tenant-123/hero'),
+		fetch('http://localhost:8080/api/v1/content/tenant-123/services')
+	]);
+
+	if (heroResponse.ok) {
+		const heroJson = await heroResponse.json();
+		if (heroJson.status === "success" && heroJson.data) {
+			heroData = heroJson.data;
+		}
+	}
+
+	if (servicesResponse.ok) {
+		const servicesJson = await servicesResponse.json();
+		if (servicesJson.status === "success" && Array.isArray(servicesJson.data)) {
+			servicesData = servicesJson.data;
+		}
+	}
+} catch (error) {
+	console.error("Fehler beim Abrufen der Ktor-Daten:", error);
+}
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Komet CMS - Astro Proof</title>
+	</head>
+	<body>
+		<!-- Hero Section -->
+		<section id="hero">
+			<h1>{heroData.title}</h1>
+			<p>{heroData.subtitle}</p>
+		</section>
+
+		<!-- Services Section -->
+		<section id="services">
+			<h2>Leistungen</h2>
+			<ul>
+				{servicesData.map((service: any) => (
+					<li>
+						<strong>{service.title}</strong>: {service.description}
+					</li>
+				))}
+			</ul>
+		</section>
+	</body>
+</html>
