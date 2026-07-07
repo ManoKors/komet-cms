@@ -7,7 +7,7 @@
 
 {#if toast.visible}
 	<div
-		class="fixed bottom-6 right-6 z-50 px-6 py-3 rounded-ghost shadow-ghost-2 text-white font-medium transition-all duration-300 ease-in-out {toast.type ===
+		class="fixed bottom-6 right-6 z-50 px-6 py-3 rounded-ghost shadow-ghost-md text-white font-medium transition-all duration-300 ease-in-out {toast.type ===
 		'success'
 			? 'bg-primary'
 			: 'bg-error'}"
@@ -23,7 +23,7 @@
 	>
 		<div class="p-ghost-side border-b border-ghost-border">
 			<!-- Placeholder for Logo/Title -->
-			<h1 class="text-[2rem] font-bold tracking-tight">Komet CMS</h1>
+			<h1 class="text-[2rem] font-bold tracking-tight text-ghost-black">Komet CMS</h1>
 		</div>
 		<nav class="flex-1 overflow-y-auto p-4 space-y-2 text-[1.4rem]">
 			<!-- Sidebar Placeholders -->
@@ -46,11 +46,9 @@
 
 	<!-- Main Content Area -->
 	<main class="flex-1 ml-[280px] min-h-screen relative">
-		<!-- Ghost Canvas -->
+		<!-- Ghost Canvas - Seamless background without the boxed wrapper -->
 		<div class="gh-canvas w-full max-w-ghost-content mx-auto p-ghost-side py-12 min-h-full">
-			<div class="bg-white rounded-ghost shadow-ghost-1 p-8 min-h-[calc(100vh-6rem)]">
-				{@render children()}
-			</div>
+			{@render children()}
 		</div>
 	</main>
 </div>

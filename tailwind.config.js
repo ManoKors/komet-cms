@@ -1,25 +1,28 @@
 /** @type {import('tailwindcss').Config} */
+import colors from 'tailwindcss/colors';
+
 export default {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
 		extend: {
 			colors: {
-				primary: { DEFAULT: '#30cf43', light: '#59d968', dark: '#1eb830' },
+				primary: { DEFAULT: colors.zinc[900], hover: colors.black },
 				ghost: {
-					black: '#15171A',
-					darkgrey: '#394047',
-					middarkgrey: '#626D79',
-					midgrey: '#7C8B9A',
-					midlightgrey: '#ABB4BE',
-					lightgrey: '#CED4D9',
-					whitegrey: '#EBEEF0',
-					bg: '#f5f6f6',
-					border: '#EBEEF0'
+					black: colors.zinc[900],
+					darkgrey: colors.zinc[700],
+					middarkgrey: colors.zinc[500],
+					midgrey: colors.zinc[400],
+					midlightgrey: colors.zinc[300],
+					lightgrey: colors.zinc[200],
+					whitegrey: colors.zinc[100],
+					bg: colors.zinc[50],
+					border: colors.zinc[200]
 				},
-				error: '#f50b23'
+				error: colors.red[500]
 			},
 			fontFamily: {
 				sans: [
+					'Geist',
 					'Inter',
 					'-apple-system',
 					'BlinkMacSystemFont',
@@ -33,12 +36,11 @@ export default {
 				],
 				mono: ['Consolas', '"Liberation Mono"', 'Menlo', 'Courier', 'monospace']
 			},
-			borderRadius: { ghost: '6px' },
+			borderRadius: { ghost: '8px' },
 			boxShadow: {
-				'ghost-1':
-					'0 0 1px rgba(0,0,0,.14), 0 1px 6px rgba(0,0,0,0.05), 0 6px 10px -8px rgba(0,0,0,.14)',
-				'ghost-2': '0 0 1px rgba(0,0,0,.05), 0 5px 18px rgba(0,0,0,.08)',
-				'ghost-3': '0 0 1px rgba(0,0,0,.05), 0 8px 28px rgba(0,0,0,.12)'
+				'ghost-sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+				'ghost-md': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+				'ghost-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03)'
 			},
 			spacing: { 'ghost-side': '24px' },
 			maxWidth: { 'ghost-content': '1200px' }

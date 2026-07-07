@@ -23,7 +23,7 @@
 	<select
 		{id}
 		bind:value
-		class="h-[36px] px-3 py-2 text-[1.5rem] bg-white border border-ghost-whitegrey rounded-ghost shadow-sm transition-shadow outline-none text-ghost-black focus:border-ghost-midgrey focus:ring-1 focus:ring-ghost-midgrey cursor-pointer {error
+		class="h-[40px] px-3 py-2 text-[1.5rem] bg-white border border-ghost-lightgrey rounded-ghost shadow-ghost-sm transition-shadow outline-none text-ghost-black hover:border-ghost-midgrey focus:border-ghost-black focus:ring-1 focus:ring-ghost-black cursor-pointer {error
 			? 'border-error focus:border-error focus:ring-error'
 			: ''}"
 	>

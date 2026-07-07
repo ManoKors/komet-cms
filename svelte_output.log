@@ -2,9 +2,47 @@
 > app@0.0.1 dev
 > vite dev
 
-10:06:23 AM [vite] (client) Forced re-optimization of dependencies
+3:48:11 PM [vite] (client) Forced re-optimization of dependencies
 
-  VITE v8.1.3  ready in 2443 ms
+  VITE v8.1.3  ready in 1747 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
+Failed to fetch content: TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {
+  [cause]: AggregateError [ECONNREFUSED]:
+      at internalConnectMultiple (node:net:1134:18)
+      at afterConnectMultiple (node:net:1715:7)
+      at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
+3:49:24 PM [vite-plugin-svelte] src/routes/+page.svelte:10:20 This reference only captures the initial value of `data`. Did you mean to reference it inside a derived instead?
+https://svelte.dev/e/state_referenced_locally
+3:49:24 PM [vite-plugin-svelte] src/routes/+page.svelte:11:23 This reference only captures the initial value of `data`. Did you mean to reference it inside a derived instead?
+https://svelte.dev/e/state_referenced_locally
+3:49:24 PM [vite-plugin-svelte] src/routes/+page.svelte:12:35 This reference only captures the initial value of `data`. Did you mean to reference it inside a derived instead?
+https://svelte.dev/e/state_referenced_locally
+3:49:24 PM [vite-plugin-svelte] src/routes/+page.svelte:13:20 This reference only captures the initial value of `data`. Did you mean to reference it inside a derived instead?
+https://svelte.dev/e/state_referenced_locally
+3:49:26 PM [vite-plugin-svelte] src/routes/+page.svelte:10:20 This reference only captures the initial value of `data`. Did you mean to reference it inside a derived instead?
+https://svelte.dev/e/state_referenced_locally
+3:49:26 PM [vite-plugin-svelte] src/routes/+page.svelte:11:23 This reference only captures the initial value of `data`. Did you mean to reference it inside a derived instead?
+https://svelte.dev/e/state_referenced_locally
+3:49:26 PM [vite-plugin-svelte] src/routes/+page.svelte:12:35 This reference only captures the initial value of `data`. Did you mean to reference it inside a derived instead?
+https://svelte.dev/e/state_referenced_locally
+3:49:26 PM [vite-plugin-svelte] src/routes/+page.svelte:13:20 This reference only captures the initial value of `data`. Did you mean to reference it inside a derived instead?
+https://svelte.dev/e/state_referenced_locally
+Failed to fetch content: TypeError: fetch failed
+    at node:internal/deps/undici/undici:14902:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {
+  [cause]: AggregateError [ECONNREFUSED]:
+      at internalConnectMultiple (node:net:1134:18)
+      at afterConnectMultiple (node:net:1715:7)
+      at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
