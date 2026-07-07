@@ -18,22 +18,21 @@
 - [x] Ktor: Backend-Datenmodell für Array-Payloads (z.B. `List<TherapieLeistung>`) erweitern.
 - [x] End-to-End Test: Dynamische Liste speichern und neu laden.
 
-## Phase 3: UX Polish & State Management
+## Phase 3: UX Polish & State Management (Pausiert)
 
 - [x] Implementierung eines globalen Toast-Notification-Systems (z.B. "Erfolgreich gespeichert").
 - [x] Lade-Indikatoren (Spinner/Disabled States) während der HTTP-Requests.
 - [x] Theme Switcher: Globale Einstellungen mit Dropdown zur Auswahl des Astro-Themes.
 
-## Phase 4: Mandanten-Auswahl & Routing
+## Phase 4: Der Astro-Beweis (SSG) (Aktuell)
+
+- [x] Setup eines minimalen Astro.build Projekts.
+- [x] Automatisches Rendern der Ktor-JSON-Daten in pures HTML.
+
+## Phase 5: Mandanten-Auswahl & Routing
 
 - [ ] Dynamische URL-Struktur im Svelte-Dashboard aufbauen (z.B. `/dashboard/[tenantId]/[page]`).
 - [ ] Funktionale Sidebar mit Navigation (Startseite, Leistungen, Team).
-
-## Phase 5: Der Astro-Beweis (SSG)
-
-- [ ] Setup eines minimalen Astro.build Projekts.
-- [ ] Skript zur Anbindung von Astro an die lokale SQLite-Datenbank.
-- [ ] Automatisches Rendern der Ktor-JSON-Daten in pures HTML.
 
 ## Phase 6: Deployment & Webhooks
 
