@@ -58,9 +58,19 @@
 	<div class="bg-white p-6 rounded-ghost shadow-ghost-1 border border-ghost-border max-w-2xl">
 		<h2 class="text-xl font-semibold text-ghost-darkgrey mb-4">Hero-Block bearbeiten</h2>
 		<form onsubmit={handleSubmit} class="space-y-4">
-			<TextInput id="hero-title" label="Titel (H1)" placeholder="Dein Hero Titel" bind:value={title} />
+			<TextInput
+				id="hero-title"
+				label="Titel (H1)"
+				placeholder="Dein Hero Titel"
+				bind:value={title}
+			/>
 
-			<TextInput id="hero-subtitle" label="Untertitel" placeholder="Dein Untertitel" bind:value={subtitle} />
+			<TextInput
+				id="hero-subtitle"
+				label="Untertitel"
+				placeholder="Dein Untertitel"
+				bind:value={subtitle}
+			/>
 
 			<div class="pt-2">
 				<button
