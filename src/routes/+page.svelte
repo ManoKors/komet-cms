@@ -1,10 +1,13 @@
 <script lang="ts">
 	import TextInput from '$lib/components/TextInput.svelte';
+	import ListRepeater from '$lib/components/ListRepeater.svelte';
+	import type { ListItem } from '$lib/components/ListRepeater.svelte';
 
 	let { data } = $props();
 
 	let title = $state(data.title);
 	let subtitle = $state(data.subtitle);
+	let services = $state<ListItem[]>(data.services);
 	let buttonText = $state('Speichern');
 	let isSaving = $state(false);
 
@@ -14,34 +17,45 @@
 		buttonText = 'Speichert...';
 
 		try {
-			const response = await fetch('http://localhost:8080/api/v1/content/tenant-123', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					title,
-					subtitle
+			const [heroResponse, servicesResponse] = await Promise.all([
+				fetch('http://localhost:8080/api/v1/content/tenant-123/hero', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						title,
+						subtitle
+					})
+				}),
+				fetch('http://localhost:8080/api/v1/content/tenant-123/services', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						items: services
+					})
 				})
-			});
+			]);
 
-			if (response.ok) {
+			if (heroResponse.ok && servicesResponse.ok) {
 				buttonText = 'Gespeichert!';
 				setTimeout(() => {
 					buttonText = 'Speichern';
 				}, 2000);
 			} else {
-				buttonText = 'Fehler beim Speichern';
+				buttonText = 'Fehler beim Speichern (teilweise)';
 				setTimeout(() => {
 					buttonText = 'Speichern';
-				}, 2000);
+				}, 3000);
 			}
 		} catch (error) {
 			console.error('Fetch error:', error);
 			buttonText = 'Fehler beim Speichern';
 			setTimeout(() => {
 				buttonText = 'Speichern';
-			}, 2000);
+			}, 3000);
 		} finally {
 			isSaving = false;
 		}
@@ -55,32 +69,39 @@
 <div class="max-w-ghost-content mx-auto mt-10 p-ghost-side">
 	<h1 class="text-3xl font-bold text-ghost-black mb-6">Dashboard</h1>
 
-	<div class="bg-white p-6 rounded-ghost shadow-ghost-1 border border-ghost-border max-w-2xl">
-		<h2 class="text-xl font-semibold text-ghost-darkgrey mb-4">Hero-Block bearbeiten</h2>
-		<form onsubmit={handleSubmit} class="space-y-4">
-			<TextInput
-				id="hero-title"
-				label="Titel (H1)"
-				placeholder="Dein Hero Titel"
-				bind:value={title}
-			/>
+	<form onsubmit={handleSubmit} class="space-y-6 max-w-2xl">
+		<div class="bg-white p-6 rounded-ghost shadow-ghost-1 border border-ghost-border">
+			<h2 class="text-xl font-semibold text-ghost-darkgrey mb-4">Hero-Block bearbeiten</h2>
+			<div class="space-y-4">
+				<TextInput
+					id="hero-title"
+					label="Titel (H1)"
+					placeholder="Dein Hero Titel"
+					bind:value={title}
+				/>
 
-			<TextInput
-				id="hero-subtitle"
-				label="Untertitel"
-				placeholder="Dein Untertitel"
-				bind:value={subtitle}
-			/>
-
-			<div class="pt-2">
-				<button
-					type="submit"
-					disabled={isSaving}
-					class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-ghost font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-				>
-					{buttonText}
-				</button>
+				<TextInput
+					id="hero-subtitle"
+					label="Untertitel"
+					placeholder="Dein Untertitel"
+					bind:value={subtitle}
+				/>
 			</div>
-		</form>
-	</div>
+		</div>
+
+		<div class="bg-white p-6 rounded-ghost shadow-ghost-1 border border-ghost-border">
+			<h2 class="text-xl font-semibold text-ghost-darkgrey mb-4">Leistungen bearbeiten</h2>
+			<ListRepeater bind:items={services} />
+		</div>
+
+		<div class="pt-2 sticky bottom-4 z-10 bg-ghost-whitegrey/80 backdrop-blur-sm p-4 rounded-ghost flex justify-end shadow-sm">
+			<button
+				type="submit"
+				disabled={isSaving}
+				class="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-ghost font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+			>
+				{buttonText}
+			</button>
+		</div>
+	</form>
 </div>

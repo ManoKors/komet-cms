@@ -1,30 +1,37 @@
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ fetch }) => {
+	let title = '';
+	let subtitle = '';
+	let services = [];
+
 	try {
-		const response = await fetch('http://localhost:8080/api/v1/content/tenant-123');
+		const [heroRes, servicesRes] = await Promise.all([
+			fetch('http://localhost:8080/api/v1/content/tenant-123/hero'),
+			fetch('http://localhost:8080/api/v1/content/tenant-123/services')
+		]);
 
-		if (response.ok) {
-			const result = await response.json();
-
-			if (result.status === 'success' && result.data) {
-				return {
-					title: result.data.title || '',
-					subtitle: result.data.subtitle || ''
-				};
+		if (heroRes.ok) {
+			const heroResult = await heroRes.json();
+			if (heroResult.status === 'success' && heroResult.data) {
+				title = heroResult.data.title || '';
+				subtitle = heroResult.data.subtitle || '';
 			}
 		}
 
-		// Handle 404 or missing data gracefully
-		return {
-			title: '',
-			subtitle: ''
-		};
+		if (servicesRes.ok) {
+			const servicesResult = await servicesRes.json();
+			if (servicesResult.status === 'success' && servicesResult.data && servicesResult.data.items) {
+				services = servicesResult.data.items;
+			}
+		}
 	} catch (error) {
-		console.error('Failed to fetch hero content:', error);
-		return {
-			title: '',
-			subtitle: ''
-		};
+		console.error('Failed to fetch content:', error);
 	}
+
+	return {
+		title,
+		subtitle,
+		services
+	};
 };

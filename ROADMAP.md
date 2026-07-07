@@ -13,10 +13,10 @@
 
 ## Phase 2: Komplexe UI & Array-Handling (Aktuell)
 
-- [ ] Erstellung der `<ListRepeater.svelte>` Komponente im Ghost-Style.
-- [ ] Logik in Svelte implementieren: Hinzufügen, Bearbeiten und Löschen von Listen-Einträgen.
-- [ ] Ktor: Backend-Datenmodell für Array-Payloads (z.B. `List<TherapieLeistung>`) erweitern.
-- [ ] End-to-End Test: Dynamische Liste speichern und neu laden.
+- [x] Erstellung der `<ListRepeater.svelte>` Komponente im Ghost-Style.
+- [x] Logik in Svelte implementieren: Hinzufügen, Bearbeiten und Löschen von Listen-Einträgen.
+- [x] Ktor: Backend-Datenmodell für Array-Payloads (z.B. `List<TherapieLeistung>`) erweitern.
+- [x] End-to-End Test: Dynamische Liste speichern und neu laden.
 
 ## Phase 3: UX Polish & State Management
 
