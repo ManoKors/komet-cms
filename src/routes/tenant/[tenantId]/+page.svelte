@@ -11,12 +11,14 @@
 	let subtitle = $state('');
 	let services = $state<ListItem[]>([]);
 	let theme = $state('minimal-light');
+	let webhookUrl = $state('');
 
 	$effect(() => {
 		title = data.title;
 		subtitle = data.subtitle;
 		services = data.services;
 		theme = data.theme;
+		webhookUrl = data.webhookUrl || '';
 	});
 
 	let buttonText = $state('Speichern');
@@ -33,7 +35,7 @@
 		buttonText = 'Speichert...';
 
 		try {
-			const [heroResponse, servicesResponse, settingsResponse] = await Promise.all([
+			const [heroResponse, servicesResponse, settingsResponse, tenantResponse] = await Promise.all([
 				fetch(`http://localhost:8080/api/v1/content/${data.tenantId}/hero`, {
 					method: 'POST',
 					headers: {
@@ -61,10 +63,19 @@
 					body: JSON.stringify({
 						theme
 					})
+				}),
+				fetch(`http://localhost:8080/api/v1/tenants/${data.tenantId}`, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						webhookUrl: webhookUrl || null
+					})
 				})
 			]);
 
-			if (heroResponse.ok && servicesResponse.ok && settingsResponse.ok) {
+			if (heroResponse.ok && servicesResponse.ok && settingsResponse.ok && tenantResponse.ok) {
 				buttonText = 'Gespeichert!';
 				toast.show('Änderungen erfolgreich gespeichert.', 'success');
 				setTimeout(() => {
@@ -102,6 +113,13 @@
 			<h2 class="text-xl font-semibold text-ghost-darkgrey mb-4">Globale Einstellungen</h2>
 			<div class="space-y-4">
 				<SelectInput id="settings-theme" label="Theme" options={themeOptions} bind:value={theme} />
+
+				<TextInput
+					id="settings-webhook"
+					label="Build Webhook URL (z.B. Vercel/Cloudflare)"
+					placeholder="https://api.vercel.com/v1/integrations/deploy/..."
+					bind:value={webhookUrl}
+				/>
 			</div>
 		</div>
 

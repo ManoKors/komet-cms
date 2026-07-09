@@ -42,5 +42,6 @@
 
 ## Phase 6: Deployment & Webhooks
 
-- [ ] Ktor feuert POST-Webhook an Cloudflare nach erfolgreichem Speichern.
+- [x] Ktor feuert POST-Webhook an Cloudflare nach erfolgreichem Speichern.
+- [x] Webhook-Settings im Frontend (URL Eingabe im Dashboard).
 - [ ] Lokales/VPS Hosting-Setup dokumentieren.

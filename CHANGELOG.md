@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.8] - 2026-07-09
+
+### Added
+- **Webhook Infrastruktur (Phase 6):** Ktor Backend um Webhook-Trigger erweitert, damit externes Static Site Generation (SSG) z. B. bei Vercel oder Cloudflare Pages automatisch gestartet werden kann.
+- **Datenbankschema:** `Tenants` Tabelle um nullable Spalte `webhook_url` erweitert.
+- **Backend-Erweiterung:** Neuer Endpunkt `PUT /api/v1/tenants/{tenantId}` zum Aktualisieren der Webhook-URL integriert. GET und POST Routing für Tenants auf asynchrones Auslesen und Schreiben der URL erweitert.
+- **Ktor Webhook-Client:** `ktor-client-cio` eingebunden und als Fire-and-Forget Coroutine nach erfolgreichem Inhalt-Upsert implementiert (verhindert blockieren des Content-Saves).
+- **Frontend Settings:** "Build Webhook URL" Eingabefeld in den globalen Einstellungen unter `tenant/[tenantId]/+page.svelte` hinzugefügt und im bestehenden `Promise.all` Save-Prozess integriert.
+
 ## [0.1.7] - 2026-07-09
 
 ### Added
