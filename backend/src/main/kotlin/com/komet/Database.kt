@@ -12,6 +12,7 @@ object Tenants : IdTable<String>("tenants") {
     override val id = varchar("id", 255).entityId()
     val name = varchar("name", 255)
     val domain = varchar("domain", 255)
+    val webhookUrl = varchar("webhook_url", 255).nullable()
 }
 
 object ContentBlocks : IntIdTable("content_blocks") {

@@ -1,10 +1,14 @@
 package com.komet
 
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -31,12 +35,19 @@ data class SettingsPayload(val theme: String)
 data class ContentUpdateResponse(val status: String, val tenantId: String?, val message: String)
 
 @Serializable
-data class TenantResponse(val id: String, val name: String, val domain: String)
+data class TenantResponse(val id: String, val name: String, val domain: String, val webhookUrl: String?)
 
 @Serializable
 data class TenantCreatePayload(val name: String)
 
+@Serializable
+data class TenantUpdatePayload(val webhookUrl: String?)
+
 fun Application.configureRouting() {
+    val client = HttpClient(CIO) {
+        expectSuccess = false
+    }
+
     routing {
         route("/api/v1") {
             route("/tenants") {
@@ -46,11 +57,66 @@ fun Application.configureRouting() {
                             TenantResponse(
                                 id = it[Tenants.id].value,
                                 name = it[Tenants.name],
-                                domain = it[Tenants.domain]
+                                domain = it[Tenants.domain],
+                                webhookUrl = it[Tenants.webhookUrl]
                             )
                         }
                     }
                     call.respond(HttpStatusCode.OK, tenantsList)
+                }
+
+                route("/{tenantId}") {
+                    get {
+                        val tenantId = call.parameters["tenantId"] ?: return@get call.respond(
+                            HttpStatusCode.BadRequest,
+                            mapOf("error" to "Missing tenantId")
+                        )
+
+                        val tenant = transaction {
+                            Tenants.selectAll().where { Tenants.id eq tenantId }.singleOrNull()
+                        }
+
+                        if (tenant != null) {
+                            call.respond(
+                                HttpStatusCode.OK, TenantResponse(
+                                    id = tenant[Tenants.id].value,
+                                    name = tenant[Tenants.name],
+                                    domain = tenant[Tenants.domain],
+                                    webhookUrl = tenant[Tenants.webhookUrl]
+                                )
+                            )
+                        } else {
+                            call.respond(HttpStatusCode.NotFound, mapOf("error" to "Tenant not found"))
+                        }
+                    }
+
+                    put {
+                        val tenantId = call.parameters["tenantId"] ?: return@put call.respond(
+                            HttpStatusCode.BadRequest,
+                            mapOf("error" to "Missing tenantId")
+                        )
+
+                        try {
+                            val payload = call.receive<TenantUpdatePayload>()
+
+                            val updatedCount = transaction {
+                                Tenants.update({ Tenants.id eq tenantId }) {
+                                    it[webhookUrl] = payload.webhookUrl
+                                }
+                            }
+
+                            if (updatedCount > 0) {
+                                call.respond(HttpStatusCode.OK, mapOf("success" to "Tenant updated"))
+                            } else {
+                                call.respond(HttpStatusCode.NotFound, mapOf("error" to "Tenant not found"))
+                            }
+                        } catch (e: Exception) {
+                            call.respond(
+                                HttpStatusCode.BadRequest,
+                                mapOf("error" to "Invalid payload", "message" to (e.localizedMessage ?: ""))
+                            )
+                        }
+                    }
                 }
 
                 post {
@@ -67,7 +133,7 @@ fun Application.configureRouting() {
                                 it[name] = payload.name
                                 it[domain] = dummyDomain
                             }
-                            TenantResponse(newId, payload.name, dummyDomain)
+                            TenantResponse(newId, payload.name, dummyDomain, null)
                         }
                         call.respond(HttpStatusCode.Created, newTenant)
                     } catch (e: Exception) {
@@ -134,7 +200,7 @@ fun Application.configureRouting() {
                             )
                         }
 
-                        transaction {
+                        val webhookUrl = transaction {
                             val existing = ContentBlocks.selectAll().where {
                                 (ContentBlocks.tenantId eq tenantId) and (ContentBlocks.blockType eq blockType)
                             }.singleOrNull()
@@ -149,6 +215,19 @@ fun Application.configureRouting() {
                                     it[pageRoute] = "/"
                                     it[ContentBlocks.blockType] = blockType
                                     it[jsonPayload] = jsonString
+                                }
+                            }
+
+                            val tenant = Tenants.selectAll().where { Tenants.id eq tenantId }.singleOrNull()
+                            tenant?.get(Tenants.webhookUrl)
+                        }
+
+                        if (!webhookUrl.isNullOrBlank()) {
+                            launch {
+                                try {
+                                    client.post(webhookUrl)
+                                } catch (ex: Exception) {
+                                    application.environment.log.error("Failed to trigger webhook for tenant $tenantId: ${ex.message}")
                                 }
                             }
                         }

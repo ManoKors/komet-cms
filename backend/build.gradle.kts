@@ -31,6 +31,10 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktor_version")
 
+    // Client for Webhook
+    implementation("io.ktor:ktor-client-core-jvm:$ktor_version")
+    implementation("io.ktor:ktor-client-cio-jvm:$ktor_version")
+
     // CORS Plugin
     implementation("io.ktor:ktor-server-cors-jvm:$ktor_version")
 
