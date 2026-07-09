@@ -36,7 +36,8 @@
 
 ## Phase 5: Mandanten-Auswahl & Routing
 
-- [ ] Dynamische URL-Struktur im Svelte-Dashboard aufbauen (z.B. `/dashboard/[tenantId]/[page]`).
+- [x] Dynamische URL-Struktur im Svelte-Dashboard aufbauen (z.B. `/tenant/[tenantId]`).
+- [x] Dashboard/Startseite mit Mandanten-Übersicht.
 - [ ] Funktionale Sidebar mit Navigation (Startseite, Leistungen, Team).
 
 ## Phase 6: Deployment & Webhooks

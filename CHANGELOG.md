@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.7] - 2026-07-09
+
+### Added
+- **Multi-Tenancy Architektur (Phase 5):** Das CMS ist nun "Multi-Tenant"-fähig. Der hartcodierte Test-Mandant wurde durch dynamisches Routing (`/tenant/[tenantId]`) ersetzt.
+- **Backend Mandanten-Endpunkte:** Neue Ktor Routen `GET /api/v1/tenants` und `POST /api/v1/tenants` zum Abrufen und Anlegen von Mandanten implementiert. Die Domain wird beim Anlegen via Slug generiert.
+- **Dashboard Mandanten-Übersicht:** Die Startseite (`/`) zeigt nun eine elegante Übersicht aller Mandanten in Form von Kacheln. Ein neues Inline-Formular erlaubt das Anlegen neuer Mandanten.
+- **Kontextabhängige Sidebar:** Die Sidebar-Navigation in `+layout.svelte` reagiert nun auf den gewählten Mandanten und zeigt kontextbezogene Links (inkl. "Zurück zu allen Mandanten").
+
 ## [0.1.6] - 2026-07-08
 
 ### Added
