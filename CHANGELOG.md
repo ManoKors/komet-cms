@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.9] - 2026-07-09
+
+### Added
+- **Agentic Context & Automatisierte Dokumentation:** Einführung einer `agents.md` Datei im Root-Verzeichnis, um den strategischen Pivot zu einem exklusiven, internen Agentur-Werkzeug zu manifestieren. Diese Datei definiert feste Leitplanken und erzwingt automatische Dokumentation bei zukünftigen Änderungen.
+- **Dokumentations-Fundament:** Neuer `docs/` Ordner mit `architecture.md`, `database.md` und `api.md`, der den aktuellen technischen Ist-Zustand des Projekts dokumentiert.
+
 ## [0.1.8] - 2026-07-09
 
 ### Added

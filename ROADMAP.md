@@ -45,3 +45,8 @@
 - [x] Ktor feuert POST-Webhook an Cloudflare nach erfolgreichem Speichern.
 - [x] Webhook-Settings im Frontend (URL Eingabe im Dashboard).
 - [ ] Lokales/VPS Hosting-Setup dokumentieren.
+
+## Phase 7: Automatisierte Dokumentations-Struktur
+
+- [x] `agents.md` Briefing-Datei für strategischen Pivot (internes Agentur-Werkzeug) erstellt.
+- [x] `/docs/` Ordner mit `architecture.md`, `database.md` und `api.md` initialisiert.

@@ -1,0 +1,24 @@
+# 🤖 KOMET CMS - AI Agent Briefing
+
+Hallo KI-Agent! Bevor du Code in diesem Repository schreibst, analysierst oder änderst, MUSST du diese Datei lesen und dich strikt an die folgenden Regeln halten.
+
+## 1. Strategisches Ziel & Business Model
+
+*   **KEIN Public SaaS:** Komet CMS ist ein proprietäres, internes Werkzeug für einen Freelance-Webdesigner. Es gibt keine Self-Service-Registrierung, kein Billing (Stripe), keine öffentlichen Pricing-Pages und kein komplexes Rollen-System (RBAC).
+*   **Der Use-Case:** Der Webdesigner entwirft individuelle Webseiten (Astro) für Kunden und nutzt Komet CMS (Svelte/Ktor) lediglich, um diesen Kunden ein simples Backend zur Textänderung bereitzustellen.
+*   **Fokus:** Maximales Premium-Gefühl im UI/UX (Vercel/Linear-Ästhetik) bei gleichzeitig minimaler technischer Komplexität unter der Haube.
+
+## 2. Technische Leitplanken (Tech-Stack)
+
+*   **Frontend:** SvelteKit 5 (Runes), Tailwind CSS (62,5% Font-Size, 1rem=10px), TypeScript.
+*   **Backend:** Ktor (Kotlin) mit Netty, JetBrains Exposed, SQLite.
+*   **Architektur-Regel (YAGNI):** Baue keine "auf Vorrat" erdachten Features. Halte das Backend dumm (CRUD & JSON Storage). Echte Hexagonale Architektur ist aktuell Over-Engineering und streng verboten.
+*   **Test-Driven:** Das Backend ist durch Ktor Integration Tests (`RoutingTest.kt`) mit einer In-Memory SQLite (`jdbc:sqlite::memory:`) abgesichert. Neue Backend-Routen erfordern vorher neue Tests!
+
+## 3. Der Pflicht-Workflow für KI-Agenten
+
+Bei jedem Task, den du ausführst, MUSST du folgenden Ablauf einhalten:
+
+1.  **Lies den Code & die Docs:** Konsultiere den `/docs/` Ordner, um den aktuellen Status der Architektur zu verstehen.
+2.  **Implementiere:** Schreibe den Code nach den oben genannten Leitplanken.
+3.  **Dokumentiere (Zwingend!):** Bevor du einen Task abschließt, MUSST du die entsprechenden Dateien im `/docs/` Ordner, sowie die `CHANGELOG.md` und `ROADMAP.md` aktualisieren. Ein PR ohne Update der Dokumentation ist ungültig.
