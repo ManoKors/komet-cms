@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-07-08
+
+### Added
+- **Backend TDD Infrastruktur:** Test-Driven Development Umgebung (JUnit & Ktor TestHost) im Backend eingerichtet.
+- **API Integration Tests:** Erste Integrationstests (`RoutingTest.kt`) für die Hero- & Services-Endpunkte (inkl. Upsert-Logik, 404 und Validation) geschrieben.
+- **Datenbank-Refactoring:** `initDatabase()` um einen `jdbcUrl` Parameter erweitert, um Testläufe sicher auf einer isolierten In-Memory-Datenbank auszuführen.
+
 ### Changed
 - **Premium UI/UX Redesign:** Das komplette Interface wurde von einem "Tech-Prototyp" auf ein minimalistisches "Enterprise SaaS"-Niveau (inspiriert von Vercel/Linear) gehoben.
 - **Farbpalette:** Die grüne Primärfarbe wurde durch ein elegantes monochromes Farbschema (Zinc-Töne) ausgetauscht.

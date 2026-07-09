@@ -29,6 +29,11 @@
 - [x] Setup eines minimalen Astro.build Projekts.
 - [x] Automatisches Rendern der Ktor-JSON-Daten in pures HTML.
 
+## Phase 4.5: Backend TDD & Test-Infrastruktur
+
+- [x] JUnit & Ktor TestHost Setup.
+- [x] API Integration Tests (Hero & Services).
+
 ## Phase 5: Mandanten-Auswahl & Routing
 
 - [ ] Dynamische URL-Struktur im Svelte-Dashboard aufbauen (z.B. `/dashboard/[tenantId]/[page]`).

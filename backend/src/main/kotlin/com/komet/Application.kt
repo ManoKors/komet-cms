@@ -19,6 +19,11 @@ fun Application.module() {
     // Initialize Database
     initDatabase()
 
+    configurePlugins()
+    configureRouting()
+}
+
+fun Application.configurePlugins() {
     // Configure CORS for SvelteKit frontend
     install(CORS) {
         allowHost("localhost:5173", schemes = listOf("http", "https"))
@@ -38,7 +43,4 @@ fun Application.module() {
             isLenient = true
         })
     }
-
-    // Configure Routing
-    configureRouting()
 }

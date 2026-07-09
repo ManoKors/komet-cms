@@ -22,8 +22,8 @@ object ContentBlocks : IntIdTable("content_blocks") {
     val sortOrder = integer("sort_order").default(0)
 }
 
-fun initDatabase() {
-    val database = Database.connect("jdbc:sqlite:komet_cms.db", "org.sqlite.JDBC")
+fun initDatabase(jdbcUrl: String = "jdbc:sqlite:komet_cms.db") {
+    val database = Database.connect(jdbcUrl, "org.sqlite.JDBC")
     transaction(database) {
         SchemaUtils.create(Tenants, ContentBlocks)
 
