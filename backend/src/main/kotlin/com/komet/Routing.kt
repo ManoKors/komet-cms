@@ -30,9 +30,52 @@ data class SettingsPayload(val theme: String)
 @Serializable
 data class ContentUpdateResponse(val status: String, val tenantId: String?, val message: String)
 
+@Serializable
+data class TenantResponse(val id: String, val name: String, val domain: String)
+
+@Serializable
+data class TenantCreatePayload(val name: String)
+
 fun Application.configureRouting() {
     routing {
         route("/api/v1") {
+            route("/tenants") {
+                get {
+                    val tenantsList = transaction {
+                        Tenants.selectAll().map {
+                            TenantResponse(
+                                id = it[Tenants.id].value,
+                                name = it[Tenants.name],
+                                domain = it[Tenants.domain]
+                            )
+                        }
+                    }
+                    call.respond(HttpStatusCode.OK, tenantsList)
+                }
+
+                post {
+                    try {
+                        val payload = call.receive<TenantCreatePayload>()
+                        val newId = java.util.UUID.randomUUID().toString()
+
+                        val slug = payload.name.lowercase().replace(Regex("[^a-z0-9]+"), "-").trim('-')
+                        val dummyDomain = if (slug.isNotEmpty()) "${slug}.komet.local" else "tenant-${newId.substring(0, 8)}.komet.local"
+
+                        val newTenant = transaction {
+                            Tenants.insert {
+                                it[id] = newId
+                                it[name] = payload.name
+                                it[domain] = dummyDomain
+                            }
+                            TenantResponse(newId, payload.name, dummyDomain)
+                        }
+                        call.respond(HttpStatusCode.Created, newTenant)
+                    } catch (e: Exception) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Invalid payload or database error", "message" to (e.localizedMessage ?: "")))
+                    }
+                }
+            }
+
             route("/content/{tenantId}/{blockType}") {
                 get {
                     val tenantId = call.parameters["tenantId"] ?: return@get call.respond(

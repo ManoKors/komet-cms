@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import { toast } from '$lib/stores/toast.svelte';
+	import { page } from '$app/stores';
 
 	let { children } = $props();
 </script>
@@ -26,21 +27,39 @@
 			<h1 class="text-[2rem] font-bold tracking-tight text-ghost-black">Komet CMS</h1>
 		</div>
 		<nav class="flex-1 overflow-y-auto p-4 space-y-2 text-[1.4rem]">
-			<!-- Sidebar Placeholders -->
-			<div
-				class="px-4 py-2 font-semibold text-ghost-midgrey uppercase tracking-wider text-[1.2rem]"
-			>
-				Main
-			</div>
-			<a href="/" class="block px-4 py-2 rounded-ghost hover:bg-ghost-whitegrey transition-colors">
-				Dashboard
-			</a>
-			<a
-				href="/inhalte"
-				class="block px-4 py-2 rounded-ghost hover:bg-ghost-whitegrey transition-colors"
-			>
-				Inhalte
-			</a>
+			{#if $page.params.tenantId}
+				<a
+					href="/"
+					class="block px-4 py-2 text-[1.2rem] text-ghost-midgrey hover:text-ghost-black hover:bg-ghost-whitegrey rounded-ghost transition-colors mb-4 flex items-center"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="m15 18-6-6 6-6"/></svg>
+					Zurück zu allen Mandanten
+				</a>
+
+				<div
+					class="px-4 py-2 font-semibold text-ghost-midgrey uppercase tracking-wider text-[1.2rem]"
+				>
+					Mandant Menu
+				</div>
+				<a href={`/tenant/${$page.params.tenantId}`} class="block px-4 py-2 rounded-ghost hover:bg-ghost-whitegrey transition-colors">
+					Dashboard
+				</a>
+				<a
+					href={`/tenant/${$page.params.tenantId}/inhalte`}
+					class="block px-4 py-2 rounded-ghost hover:bg-ghost-whitegrey transition-colors"
+				>
+					Inhalte
+				</a>
+			{:else}
+				<div
+					class="px-4 py-2 font-semibold text-ghost-midgrey uppercase tracking-wider text-[1.2rem]"
+				>
+					System
+				</div>
+				<a href="/" class="block px-4 py-2 rounded-ghost hover:bg-ghost-whitegrey transition-colors">
+					Mandanten-Übersicht
+				</a>
+			{/if}
 		</nav>
 	</aside>
 

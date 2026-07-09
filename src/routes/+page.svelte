@@ -1,136 +1,86 @@
 <script lang="ts">
 	import TextInput from '$lib/components/TextInput.svelte';
-	import ListRepeater from '$lib/components/ListRepeater.svelte';
-	import SelectInput from '$lib/components/SelectInput.svelte';
-	import type { ListItem } from '$lib/components/ListRepeater.svelte';
 	import { toast } from '$lib/stores/toast.svelte';
 
 	let { data } = $props();
 
-	let title = $state(data.title);
-	let subtitle = $state(data.subtitle);
-	let services = $state<ListItem[]>(data.services);
-	let theme = $state(data.theme);
+	let tenants = $state<any[]>([]);
+	let newTenantName = $state('');
+	let isCreating = $state(false);
 
-	let buttonText = $state('Speichern');
-	let isSaving = $state(false);
+	$effect(() => {
+		tenants = data.tenants;
+	});
 
-	const themeOptions = [
-		{ value: 'minimal-light', label: 'Minimal Hell' },
-		{ value: 'classic-dark', label: 'Klassisch Dunkel' }
-	];
-
-	async function handleSubmit(event: Event) {
+	async function createTenant(event: Event) {
 		event.preventDefault();
-		isSaving = true;
-		buttonText = 'Speichert...';
+		if (!newTenantName.trim()) return;
 
+		isCreating = true;
 		try {
-			const [heroResponse, servicesResponse, settingsResponse] = await Promise.all([
-				fetch('http://localhost:8080/api/v1/content/tenant-123/hero', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						title,
-						subtitle
-					})
-				}),
-				fetch('http://localhost:8080/api/v1/content/tenant-123/services', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						items: services
-					})
-				}),
-				fetch('http://localhost:8080/api/v1/content/tenant-123/settings', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						theme
-					})
-				})
-			]);
+			const res = await fetch('http://localhost:8080/api/v1/tenants', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ name: newTenantName.trim() })
+			});
 
-			if (heroResponse.ok && servicesResponse.ok && settingsResponse.ok) {
-				buttonText = 'Gespeichert!';
-				toast.show('Änderungen erfolgreich gespeichert.', 'success');
-				setTimeout(() => {
-					buttonText = 'Speichern';
-				}, 2000);
+			if (res.ok) {
+				const newTenant = await res.json();
+				tenants = [...tenants, newTenant];
+				newTenantName = '';
+				toast.show('Mandant erfolgreich angelegt!', 'success');
 			} else {
-				buttonText = 'Fehler beim Speichern (teilweise)';
-				toast.show('Einige Änderungen konnten nicht gespeichert werden.', 'error');
-				setTimeout(() => {
-					buttonText = 'Speichern';
-				}, 3000);
+				toast.show('Fehler beim Anlegen des Mandanten.', 'error');
 			}
 		} catch (error) {
-			console.error('Fetch error:', error);
-			buttonText = 'Fehler beim Speichern';
+			console.error(error);
 			toast.show('Ein unerwarteter Fehler ist aufgetreten.', 'error');
-			setTimeout(() => {
-				buttonText = 'Speichern';
-			}, 3000);
 		} finally {
-			isSaving = false;
+			isCreating = false;
 		}
 	}
 </script>
 
 <svelte:head>
-	<title>Komet CMS - Dashboard</title>
+	<title>Komet CMS - Mandanten-Übersicht</title>
 </svelte:head>
 
 <div class="max-w-ghost-content mx-auto mt-10 p-ghost-side">
-	<h1 class="text-3xl font-bold text-ghost-black mb-6">Dashboard</h1>
+	<h1 class="text-3xl font-bold text-ghost-black mb-6">Mandanten</h1>
 
-	<form onsubmit={handleSubmit} class="space-y-6 max-w-2xl">
-		<div class="bg-white p-6 rounded-ghost shadow-ghost-sm border border-ghost-border">
-			<h2 class="text-xl font-semibold text-ghost-darkgrey mb-4">Globale Einstellungen</h2>
-			<div class="space-y-4">
-				<SelectInput id="settings-theme" label="Theme" options={themeOptions} bind:value={theme} />
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+		{#each tenants as tenant (tenant.id)}
+			<a
+				href={`/tenant/${tenant.id}`}
+				class="bg-white p-6 rounded-ghost shadow-ghost-sm border border-ghost-border hover:shadow-ghost-md hover:border-ghost-midgrey transition-all flex flex-col justify-center h-32 cursor-pointer group"
+			>
+				<h2 class="text-xl font-bold text-ghost-black group-hover:text-primary transition-colors">{tenant.name}</h2>
+				<span class="text-sm text-ghost-midgrey mt-2 font-mono truncate">{tenant.id}</span>
+			</a>
+		{:else}
+			<div class="col-span-full p-8 text-center text-ghost-midgrey bg-white rounded-ghost shadow-ghost-sm border border-ghost-border">
+				Keine Mandanten gefunden. Lege deinen ersten Mandanten an!
 			</div>
-		</div>
+		{/each}
+	</div>
 
-		<div class="bg-white p-6 rounded-ghost shadow-ghost-sm border border-ghost-border">
-			<h2 class="text-xl font-semibold text-ghost-darkgrey mb-4">Hero-Block bearbeiten</h2>
-			<div class="space-y-4">
-				<TextInput
-					id="hero-title"
-					label="Titel (H1)"
-					placeholder="Dein Hero Titel"
-					bind:value={title}
-				/>
-
-				<TextInput
-					id="hero-subtitle"
-					label="Untertitel"
-					placeholder="Dein Untertitel"
-					bind:value={subtitle}
-				/>
-			</div>
-		</div>
-
-		<div class="bg-white p-6 rounded-ghost shadow-ghost-sm border border-ghost-border">
-			<h2 class="text-xl font-semibold text-ghost-darkgrey mb-4">Leistungen bearbeiten</h2>
-			<ListRepeater bind:items={services} />
-		</div>
-
-		<div
-			class="pt-2 sticky bottom-4 z-10 bg-ghost-bg/80 backdrop-blur-sm p-4 rounded-ghost flex justify-end shadow-ghost-sm"
-		>
+	<div class="bg-white p-6 rounded-ghost shadow-ghost-sm border border-ghost-border max-w-lg">
+		<h2 class="text-xl font-semibold text-ghost-darkgrey mb-4">Neuen Mandanten anlegen</h2>
+		<form onsubmit={createTenant} class="space-y-4">
+			<TextInput
+				id="new-tenant-name"
+				label="Name des Mandanten"
+				placeholder="z.B. Zahnarzt Praxis Müller"
+				bind:value={newTenantName}
+			/>
 			<button
 				type="submit"
-				disabled={isSaving}
-				class="bg-primary hover:bg-primary-hover text-white px-6 py-2 rounded-ghost font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-ghost-sm flex items-center justify-center min-w-[120px]"
+				disabled={isCreating || !newTenantName.trim()}
+				class="bg-primary hover:bg-primary-hover text-white px-6 py-2 rounded-ghost font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-ghost-sm w-full flex items-center justify-center"
 			>
-				{#if isSaving}
+				{#if isCreating}
 					<svg
 						class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
 						xmlns="http://www.w3.org/2000/svg"
@@ -146,8 +96,8 @@
 						></path>
 					</svg>
 				{/if}
-				{buttonText}
+				Mandant anlegen
 			</button>
-		</div>
-	</form>
+		</form>
+	</div>
 </div>
