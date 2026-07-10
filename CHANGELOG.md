@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.10] - 2026-07-10
+
+### Added
+- **Level 2 Agentic Context:** `agents.md` um strikte Programmier-, Design- und Architektur-Gesetze erweitert.
+  - Fixierung auf Svelte 5 Runes (`$state`, `$derived`, etc.) und Verbot von Svelte 4 Syntax.
+  - Etablierung des Enterprise UI Design-Systems (Vercel/Linear Ästhetik) mit Tailwind-Tokens (`bg-zinc-50`, `bg-zinc-900`, `lucide-svelte`).
+  - Architektur-Restriktionen (Komponenten in `src/lib/components/`, API-Calls in `+page.ts`, Schema-Definitionen in `Database.kt`).
+  - Obligatorische Verifizierungs-Befehle (`npm run check`, `npm run format`, `./gradlew test`) vor Abschluss von Code-Änderungen.
+
 ## [0.1.9] - 2026-07-09
 
 ### Added
