@@ -51,3 +51,4 @@
 - [x] `agents.md` Briefing-Datei für strategischen Pivot (internes Agentur-Werkzeug) erstellt.
 - [x] `/docs/` Ordner mit `architecture.md`, `database.md` und `api.md` initialisiert.
 - [x] Level 2 Agentic Context (Code & Design Rules) etabliert.
+- [x] Level 3 Agentic Context (Autonomes Verhalten & Problemlösung) etabliert.

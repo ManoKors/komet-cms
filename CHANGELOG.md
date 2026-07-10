@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.11] - 2026-07-10
+
+### Added
+- Level 3 Agentic Context in agents.md (Autonomous Behavior, Self-Correction, Conventional Commits, Security Guidelines).
+
 ## [0.1.10] - 2026-07-10
 
 ### Added

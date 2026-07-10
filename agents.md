@@ -38,7 +38,22 @@ Diese Regeln lassen null Spielraum für Halluzinationen oder Abweichungen vom Sy
     *   **Frontend:** Führe `npm run check` (für TypeScript-Typisierung) und `npm run format` aus.
     *   **Backend:** Führe `cd backend && ./gradlew test` aus, um sicherzustellen, dass keine Regressionen in der API aufgetreten sind.
 
-## 4. Der Pflicht-Workflow für KI-Agenten
+## 4. Level 3: Autonomes Verhalten & Problemlösung
+
+1. **"Look Before You Leap" (DRY-Prinzip):**
+   Bevor du ein neues Feature oder eine UI-Komponente erstellst, MUSST du den bestehenden Code (insbesondere `src/lib/components/`) analysieren.
+   Code-Duplikation ist streng verboten. Nutze und erweitere bestehende Komponenten, anstatt das Rad neu zu erfinden.
+2. **Self-Correction & Fehlerbehebung:**
+   Wenn ein lokaler Check (`npm run check`, `npm run lint` oder `./gradlew test`) fehlschlägt, ist dein Task NICHT beendet.
+   Du darfst den Fehler nicht einfach nur dem User melden. Du MUSST die Fehlermeldung analysieren, den Code korrigieren und den Test erneut ausführen, bis alle Checks erfolgreich ("grün") durchlaufen. Erst dann darfst du den Code als "fertig" präsentieren.
+3. **Git Hygiene (Conventional Commits):**
+   Nutze für Commit-Messages zwingend das Conventional Commits Format.
+   Beispiele: `feat: [Beschreibung]`, `fix: [Beschreibung]`, `chore: [Beschreibung]`, `docs: [Beschreibung]`.
+4. **Security & Environment Variables:**
+   Hartcodierte Secrets (API-Keys, Passwörter, externe Webhook-Live-URLs) sind im Quellcode strengstens verboten.
+   Nutze immer Konfigurationsdateien oder `.env` Variablen, wenn es um sensible Daten geht.
+
+## 5. Der Pflicht-Workflow für KI-Agenten
 
 Bei jedem Task, den du ausführst, MUSST du folgenden Ablauf einhalten:
 
